@@ -3,15 +3,25 @@ import WelcomeItem from "./WelcomeItem.vue";
 import DocumentationIcon from "./icons/IconDocumentation.vue";
 import ToolingIcon from "./icons/IconTooling.vue";
 // import CommunityIcon from "./icons/IconCommunity.vue";
+import axios from "axios";
 import { ref } from "vue";
+
 // reactive state
 const reversedText = ref("");
 const inputText = ref("");
 
 // functions that mutate state and trigger updates
 function sendToLambaReverse() {
-  // https://rb36f1bdm8.execute-api.us-east-1.amazonaws.com/default/reverseText
-  reversedText.value = inputText.value;
+  axios
+    .post(
+      "https://rb36f1bdm8.execute-api.us-east-1.amazonaws.com/default/reverseText",
+      {
+        text: inputText.value,
+      }
+    )
+    .then((response) => {
+      reversedText.value = response.data.result;
+    });
 }
 </script>
 
